@@ -86,8 +86,8 @@ shots.forEach((s, i) => {
   for (const a of [...(s.actors || []), ...(s.crowds || (s.crowd ? [s.crowd] : []))]) if (a.pop !== undefined) for (let k = 0; k < (a.n ? Math.min(7, a.n) : 1); k++) events.push({ t: s.t0 + a.pop + k * (a.popSpread ?? .8) / 7, type: 'pop' });
 });
 // meta.music: a music file (path from the project root) to loop under the voice instead of the code-made bed.
-const music = story.meta?.music ? resolve(ROOT, story.meta.music) : null;
-if (music && !existsSync(music)) { console.error('meta.music not found:', music); process.exit(1); }
+let music = story.meta?.music ? resolve(ROOT, story.meta.music) : null;
+if (music && !existsSync(music)) { console.warn('meta.music not found, using the code-made bed instead:', music); music = null; }
 writeBed(join(OUT, 'bed.wav'), duration, story.meta?.mood, events, !!music);
 
 // 5. encode and mix. The bed sits under the voice; the mix is normalized to -16 LUFS like the reference.
