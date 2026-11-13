@@ -94,7 +94,7 @@ writeBed(join(OUT, 'bed.wav'), duration, story.meta?.mood, events, !!music);
 const mp4 = join(OUT, `${name}.mp4`);
 const fadeOut = `afade=t=out:st=${Math.max(0, duration - 1.2).toFixed(2)}:d=1.2`;
 const mix = music
-  ? `[1:a]apad[v];[2:a]volume=.9[b];[3:a]volume=${story.meta?.musicGain ?? .32},afade=t=in:d=.4,${fadeOut}[m];[v][b][m]amix=inputs=3:duration=shortest:normalize=0,loudnorm=I=-16:LRA=5:TP=-1.5[a]`
+  ? `[1:a]apad[v];[2:a]volume=.9[b];[3:a]volume=${story.meta?.musicGain ?? .32},afade=t=in:d=0.4,${fadeOut}[m];[v][b][m]amix=inputs=3:duration=shortest:normalize=0,loudnorm=I=-16:LRA=5:TP=-1.5[a]`
   : `[1:a]apad[v];[2:a]volume=${story.meta?.bedGain ?? .55}[b];[v][b]amix=inputs=2:duration=shortest:normalize=0,loudnorm=I=-16:LRA=5:TP=-1.5[a]`;
 execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-framerate', String(fps), '-i', join(FR, 'f%06d.jpg'), '-i', join(OUT, 'voice.wav'), '-i', join(OUT, 'bed.wav'), ...(music ? ['-stream_loop', '-1', '-i', music] : []),
   '-filter_complex', mix,
