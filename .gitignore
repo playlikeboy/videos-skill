@@ -1,0 +1,25 @@
+# dependencies and environments
+node_modules/
+engine/storyreel/.venv/
+
+# build output (regenerate with the build commands in the README)
+engine/storyreel/build/
+brands/*/reels/*/out/*.wav
+brands/*/reels/*/out/reel.mp4
+brands/*/reels/*/out/sheet.jpg
+brands/*/reels/*/out/*.cues.json
+
+# third-party material kept locally for study only: never publish
+instagram/
+shared/audio/*.mp3
+engine/storyreel/reference/transcript-by-story.json
+engine/storyreel/reference/*.jpg
+
+# local state and secrets
+pipeline/publish-log.jsonl
+pipeline/reels-media/
+.env*
+.mcp.json
+.claude/settings*.json
+**/.ipynb_checkpoints/
+.claude/scheduled_tasks.lock

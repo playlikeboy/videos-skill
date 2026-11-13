@@ -1,0 +1,17 @@
+{
+  "name": "videos-skill",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Make vertical promo reels with code: 2D motion-graphics reels and narrated 3D story reels.",
+  "type": "module",
+  "scripts": {
+    "story": "node engine/storyreel/build.mjs",
+    "story:demo": "node engine/storyreel/build.mjs engine/storyreel/stories/balloon-secrets.json",
+    "reel": "node .claude/skills/javascript-animation/scripts/render.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.50.0",
+    "three": "0.170.0"
+  },
+  "license": "MIT"
+}

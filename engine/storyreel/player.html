@@ -1,0 +1,15 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>storyreel player</title>
+<style>html,body{margin:0;background:#000}canvas{height:100vh;display:block;margin:auto}</style>
+<canvas id="out" width="1080" height="1920"></canvas>
+<script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+<script type="module">
+// Loads a timeline (?tl=/engine/storyreel/build/<name>/timeline.json) and exposes window.draw(frame), FRAMES, FPS.
+import { createPlayer } from './lib/world.js';
+const q = new URLSearchParams(location.search), tl = await (await fetch(q.get('tl'))).json();
+const face = new FontFace('Inter', 'url(/shared/fonts/inter-900.woff2)', { weight: '900' }); document.fonts.add(await face.load());
+const p = createPlayer(tl, document.getElementById('out'));
+window.FRAMES = p.frames; window.FPS = p.fps; window.draw = p.draw; p.draw(0); window.READY = true;
+if (!q.has('render')) { const t0 = performance.now(); (function loop() { p.draw(Math.floor((performance.now() - t0) / 1000 * p.fps) % p.frames); requestAnimationFrame(loop); })(); }
+</script>
