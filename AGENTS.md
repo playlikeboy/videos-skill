@@ -19,11 +19,14 @@ videos-skill/
   .claude/skills/              56 motion-graphics skills (from github.com/iart-ai, 19 packs)
   brands/<brand>/
     brand.md                   voice, allowed facts, things never to claim
+    content-analysis.md        what the account already posts and what has worked
     calendar.csv               one reel format per weekday
     assets/                    logo files
     reels/<date>-<format>/     src/ (page that draws the reel), out/ (final.mp4, caption.txt)
   shared/
     scripts/reelkit.js         helpers for 2D canvas reels (text, easing, scenes, code-made music)
+    scripts/publish.py         publish one reel folder to Instagram
+    audio/                     music files (local only, not committed)
     fonts/                     Inter, Familjen Grotesk, IBM Plex Sans, JetBrains Mono (woff2)
   engine/storyreel/            3D narrated story-reel engine (see its README.md)
     ANALYSIS.md                measured breakdown of the reference story format
@@ -53,7 +56,7 @@ Both render with headless Chrome, frame by frame. Every frame must be a pure fun
 - 1080x1920, 30 fps, H.264 + AAC, `yuv420p`, TV colour range, `+faststart`, under 30 MB.
 - Hook readable in the first second.
 - Text stays clear of the top 250 px and bottom 420 px.
-- Music is code-made or silent. No trending or copyrighted audio.
+- Music is code-made, silent, or a file the owner supplied in `shared/audio/`. The owner is responsible for rights to supplied tracks; never commit them.
 - Look at a contact sheet before calling a reel done. Check for clipped text, typos, and claims not in `brand.md`.
 
 ## Content rules
@@ -65,21 +68,22 @@ Both render with headless Chrome, frame by frame. Every frame must be a pure fun
 
 ## Publishing
 
-- Both Instagram accounts are connected through the Composio connector (aliases `indexfast` and `campusloop.space`).
-- Publishing is two calls: `INSTAGRAM_POST_IG_USER_MEDIA` (creates a container from a public MP4 URL), then `INSTAGRAM_POST_IG_USER_MEDIA_PUBLISH`.
-- Hosting: Instagram needs the MP4 at a public URL. `pipeline/transport.md` gives the route (the public GitHub repo's raw file URL). It has not been proven end to end yet.
-- Both Instagram connections returned "session invalidated" on 2026-11-13 and must be reconnected in Composio before anything can publish.
-- The owner chose fully automatic publishing once hosting works, at about 7 pm IST for CampusLoop and 9 pm IST for IndexFast.
-- At most one reel per brand per day.
+- Run `python3.11 shared/scripts/publish.py <account> <reel folder>` after the reel's `out/final.mp4` and `out/caption.txt` are pushed to the public repo. `pipeline/transport.md` explains the route.
+- Composio account ids that work: `instagram_dam-hinder` for @indexfast and `instagram_skyish-rhe` for @campusloop.space. Always pass the account. The Composio default is an unrelated Instagram account, and the connections aliased `indexfast` and `campusloop.space` have expired tokens.
+- The Composio key lives in `~/.claude.json` (user-scope MCP server `composio`). Never write it into a file in this repo.
+- @indexfast already receives 11–13 posts a day from another pipeline. Read `brands/<brand>/content-analysis.md` before adding more.
+- The owner chose fully automatic publishing, at about 7 pm IST for CampusLoop and 9 pm IST for IndexFast.
+- At most one reel per brand per day from this project.
 
 ## State on 2026-11-13
 
 | Item | State |
 |---|---|
-| First 2D reels (one per brand) | Rendered, not published |
-| Story engine | Working; one demo story rendered |
+| Published on 2026-11-13 | IndexFast problem-hook reel; CampusLoop confession reel; CampusLoop balloon-secrets story reel. Permalinks in `pipeline/publish-log.jsonl` (local) |
+| Story engine | Working; one story built and published |
 | Daily schedule | Two in-session jobs; they expire after 7 days and need renewing |
-| Reference downloads | In `instagram/`; see `instagram/README.md` for counts |
+| Reference downloads | In `instagram/` (local only). Anonymous download returned only part of some accounts |
+| Public repo | https://github.com/playlikeboy/videos-skill |
 
 ## Machine notes
 

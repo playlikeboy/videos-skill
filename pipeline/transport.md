@@ -6,4 +6,4 @@ Instagram fetches the video from a public URL. This project uses the public GitH
 2. The video URL is `https://raw.githubusercontent.com/playlikeboy/videos-skill/main/<path to final.mp4>`.
 3. Pass that URL as `video_url` to `INSTAGRAM_POST_IG_USER_MEDIA` with `media_type: REELS`.
 
-Not yet proven end to end: no reel has been published through this route. If Instagram rejects the raw URL, record the error here before trying another host.
+Proven on 2026-11-13: three reels were published this way. `shared/scripts/publish.py <account> <reel folder>` does steps 2 and 3 and prints the permalink.

@@ -4,7 +4,7 @@ One reel per brand per day. The scheduled job names the brand; follow these step
 
 ## 1. Pick today's reel
 
-1. Read `brands/<brand>/brand.md` and `brands/<brand>/calendar.csv`.
+1. Read `brands/<brand>/brand.md`, `brands/<brand>/content-analysis.md` and `brands/<brand>/calendar.csv`.
 2. Take the row for today's weekday (IST). Read `pipeline/publish-log.jsonl` and choose a hook that has not been used before for this brand.
 3. If `brand.md` still says the visual style is not recorded, read the site's CSS, record colors and fonts in `brand.md`, and save a logo and screenshots to `brands/<brand>/assets/`.
 4. Re-read the site for any number, price or limit the reel will show. Use only facts listed in `brand.md` and still true on the site. Obey the "Never" section.
@@ -32,10 +32,9 @@ One reel per brand per day. The scheduled job names the brand; follow these step
 
 Write `out/caption.txt`: hook line, two lines of value, CTA, 5–8 hashtags.
 
-1. Stage the MP4 using the route in `pipeline/transport.md`. If that file does not exist, stop here, log `status: rendered-not-published`, and do not upload the file anywhere.
-2. `INSTAGRAM_POST_IG_USER_MEDIA` with the brand's Composio account, `media_type: REELS`, `share_to_feed: true`, the caption, and the video.
-3. `INSTAGRAM_POST_IG_USER_MEDIA_PUBLISH` with `max_wait_seconds: 300`. Never publish the same `creation_id` twice. On container error, create a new container once; on a second failure, stop and log.
-4. `INSTAGRAM_GET_IG_MEDIA` for the permalink.
+1. Commit and push the reel folder so `out/final.mp4` is public (see `pipeline/transport.md`).
+2. Run `python3.11 shared/scripts/publish.py <account> <reel folder>` with the brand's account id from `AGENTS.md`. Never rely on the default account.
+3. If it fails, do not retry more than once; log the error.
 
 ## 6. Log
 
